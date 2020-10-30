@@ -2,6 +2,8 @@
 using Opc.Ua.Client;
 using Opc.Ua.Sample.Controls;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace NugetClient
@@ -107,6 +109,112 @@ namespace NugetClient
                 mSession.Close();
                 mSession = null;
             }
+        }
+
+        private void btn01_Click(object sender, EventArgs e)
+        {
+            #region validation
+            if (mSession == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(tbNodeID01.Text))
+            {
+                return;
+            }
+            #endregion
+
+            clearTextControls();
+
+            try
+            {
+                tbResult01.Text = mSession.ReadValue(tbNodeID01.Text.Trim()).Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                tbErrorMessage.Text = ex.Message;
+            }
+        }
+
+        private void btn02_Click(object sender, EventArgs e)
+        {
+            #region annotation(reference)
+            //// Snippet 1
+            //var session = await Session.Create(config, endpoint, false, "OPC UA Console Client", 60000, new UserIdentity(new AnonymousIdentityToken()), null);
+            //while (true)
+            //{
+            //    session.ReadValues(new List<NodeId>() { nodeId }, new List<Type>() { typeof(string) }, out var values, out var errors);
+            //    Thread.Sleep(3000);
+            //    System.Console.WriteLine($"Value: {values[0]}");
+            //}
+
+            //// Snippet 2
+            //while (true)
+            //{
+            //    session.ReadValues(new List<NodeId>() { nodeId }, new List<Type>() { typeof(string) }, out var values, out var errors);
+            //    var dv = session.ReadValue(nodeId);
+            //    System.Console.WriteLine($"Value: {values[0]}");
+            //    System.Console.WriteLine($"Single Read Value: {dv.Value}");
+            //    Thread.Sleep(3000);
+            //} 
+
+            //mSession.ReadValues(new List<NodeId>() { new NodeId("ns=3;i=1009") }, new List<Type>() { typeof(object) }, out var values, out var errors);
+            #endregion
+
+
+            var nodeIds = new List<NodeId>
+            {
+                new NodeId("ns=3;i=1009"),
+                new NodeId("ns=3;i=1010"),
+                new NodeId("ns=3;i=1011"),
+                new NodeId("ns=3;i=1012"),
+                new NodeId("ns=3;i=1013"),
+                new NodeId("ns=3;i=1014"),
+                new NodeId("ns=3;i=1015"),
+                new NodeId("ns=3;i=1016"),
+                new NodeId("ns=3;i=1017"),
+                new NodeId("ns=3;i=1018"),
+                new NodeId("ns=3;i=1019"),
+                new NodeId("ns=3;i=1020"),
+                new NodeId("ns=3;i=1021"),
+                new NodeId("ns=3;i=1022"),
+                new NodeId("ns=3;i=1023"),
+                new NodeId("ns=3;i=1024"),
+                new NodeId("ns=3;i=1025"),
+                new NodeId("ns=3;i=1026"),
+                new NodeId("ns=3;i=1027"),
+                new NodeId("ns=3;i=1028"),
+                new NodeId("ns=3;i=1029"),
+                new NodeId("ns=3;i=1030"),
+                new NodeId("ns=3;i=1031"),
+                new NodeId("ns=3;i=1032"),
+                new NodeId("ns=3;i=1033"),
+                new NodeId("ns=3;i=1034"),
+                new NodeId("ns=3;i=1035"),
+                new NodeId("ns=3;i=1036"),
+                new NodeId("ns=3;i=1037"),
+                new NodeId("ns=3;i=1038"),
+            };
+
+            var t1=new List<Type>();
+            for (int i = 0; i < nodeIds.Count; i++)
+            {
+                t1.Add(typeof(object));
+            }
+
+
+
+            mSession.ReadValues(nodeIds, t1, out List<object> values, out List<ServiceResult> errors);
+
+            
+
+        }
+
+        private void clearTextControls()
+        {
+            tbResult01.Text = string.Empty;
+            tbErrorMessage.Text = string.Empty;
         }
     }
 }

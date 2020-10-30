@@ -2,7 +2,6 @@
 using Opc.Ua.Client;
 using Opc.Ua.Sample.Controls;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -119,7 +118,7 @@ namespace NugetClient
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(tbNodeID01.Text))
+            if (string.IsNullOrWhiteSpace(tbNodeId01.Text))
             {
                 return;
             }
@@ -129,7 +128,7 @@ namespace NugetClient
 
             try
             {
-                tbResult01.Text = mSession.ReadValue(tbNodeID01.Text.Trim()).Value.ToString();
+                tbResult01.Text = mSession.ReadValue(tbNodeId01.Text.Trim()).Value.ToString();
             }
             catch (Exception ex)
             {
@@ -160,61 +159,97 @@ namespace NugetClient
             //} 
 
             //mSession.ReadValues(new List<NodeId>() { new NodeId("ns=3;i=1009") }, new List<Type>() { typeof(object) }, out var values, out var errors);
+
+            //var variableIds = new List<NodeId>
+            //{
+            //    new NodeId("ns=3;i=1009"),
+            //    new NodeId("ns=3;i=1010"),
+            //    new NodeId("ns=3;i=1011"),
+            //    new NodeId("ns=3;i=1012"),
+            //    new NodeId("ns=3;i=1013"),
+            //    new NodeId("ns=3;i=1014"),
+            //    new NodeId("ns=3;i=1015"),
+            //    new NodeId("ns=3;i=1016"),
+            //    new NodeId("ns=3;i=1017"),
+            //    new NodeId("ns=3;i=1018"),
+            //    new NodeId("ns=3;i=1019"),
+            //    new NodeId("ns=3;i=1020"),
+            //    new NodeId("ns=3;i=1021"),
+            //    new NodeId("ns=3;i=1022"),
+            //    new NodeId("ns=3;i=1023"),
+            //    new NodeId("ns=3;i=1024"),
+            //    new NodeId("ns=3;i=1025"),
+            //    new NodeId("ns=3;i=1026"),
+            //    new NodeId("ns=3;i=1027"),
+            //    new NodeId("ns=3;i=1028"),
+            //    new NodeId("ns=3;i=1029"),
+            //    new NodeId("ns=3;i=1030"),
+            //    new NodeId("ns=3;i=1031"),
+            //    new NodeId("ns=3;i=1032"),
+            //    new NodeId("ns=3;i=1033"),
+            //    new NodeId("ns=3;i=1034"),
+            //    new NodeId("ns=3;i=1035"),
+            //    new NodeId("ns=3;i=1036"),
+            //    new NodeId("ns=3;i=1037"),
+            //    new NodeId("ns=3;i=1038"),
+            //};
+
+            //var expectedTypes = new List<Type>();
+            //for (int i = 0; i < variableIds.Count; i++)
+            //{
+            //    expectedTypes.Add(typeof(object));
+            //}
+
+            //mSession.ReadValues(variableIds, expectedTypes, out List<object> values, out List<ServiceResult> errors);
+
+            //lbResult01.DataSource = values;
             #endregion
 
-
-            var nodeIds = new List<NodeId>
+            #region validation
+            if (mSession == null)
             {
-                new NodeId("ns=3;i=1009"),
-                new NodeId("ns=3;i=1010"),
-                new NodeId("ns=3;i=1011"),
-                new NodeId("ns=3;i=1012"),
-                new NodeId("ns=3;i=1013"),
-                new NodeId("ns=3;i=1014"),
-                new NodeId("ns=3;i=1015"),
-                new NodeId("ns=3;i=1016"),
-                new NodeId("ns=3;i=1017"),
-                new NodeId("ns=3;i=1018"),
-                new NodeId("ns=3;i=1019"),
-                new NodeId("ns=3;i=1020"),
-                new NodeId("ns=3;i=1021"),
-                new NodeId("ns=3;i=1022"),
-                new NodeId("ns=3;i=1023"),
-                new NodeId("ns=3;i=1024"),
-                new NodeId("ns=3;i=1025"),
-                new NodeId("ns=3;i=1026"),
-                new NodeId("ns=3;i=1027"),
-                new NodeId("ns=3;i=1028"),
-                new NodeId("ns=3;i=1029"),
-                new NodeId("ns=3;i=1030"),
-                new NodeId("ns=3;i=1031"),
-                new NodeId("ns=3;i=1032"),
-                new NodeId("ns=3;i=1033"),
-                new NodeId("ns=3;i=1034"),
-                new NodeId("ns=3;i=1035"),
-                new NodeId("ns=3;i=1036"),
-                new NodeId("ns=3;i=1037"),
-                new NodeId("ns=3;i=1038"),
-            };
-
-            var t1=new List<Type>();
-            for (int i = 0; i < nodeIds.Count; i++)
-            {
-                t1.Add(typeof(object));
+                return;
             }
 
+            if (lbNodeId01.Items.Count <= 0 || lbNodeId01.SelectedItems.Count <= 0)
+            {
+                return;
+            }
+            #endregion
 
+            clearTextControls();
 
-            mSession.ReadValues(nodeIds, t1, out List<object> values, out List<ServiceResult> errors);
+            try
+            {
+                var variableIds = new List<NodeId>();
+                var expectedTypes = new List<Type>();
+                foreach (object item in lbNodeId01.SelectedItems)
+                {
+                    variableIds.Add(new NodeId(item.ToString()));
+                    expectedTypes.Add(typeof(object));
+                }
 
-            
+                mSession.ReadValues(variableIds, expectedTypes, out List<object> values, out List<ServiceResult> errors);
 
+                //lbResult01.DataSource = values;
+                for (int i = 0; i < lbNodeId01.SelectedItems.Count; i++)
+                {
+                    lbResult01.Items.Add($"{values[i]} ({lbNodeId01.SelectedItems[i]}, {expectedTypes[i].Name})");
+                }
+            }
+            catch (Exception ex)
+            {
+                tbErrorMessage.Text = ex.Message;
+            }
         }
 
         private void clearTextControls()
         {
             tbResult01.Text = string.Empty;
             tbErrorMessage.Text = string.Empty;
+
+            //lbResult01.DataSource = null;
+            lbResult01.Items.Clear();
         }
     }
 }

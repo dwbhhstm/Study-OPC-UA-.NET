@@ -1,65 +1,32 @@
-﻿using System;
-using System.Windows.Forms;
-
-using Opc.Ua;
-using Opc.Ua.Configuration;
+﻿using Opc.Ua;
 using Opc.Ua.Client;
 using Opc.Ua.Sample.Controls;
-
+using System;
+using System.Windows.Forms;
 
 namespace NugetClient
 {
     public partial class MinimalClient : Form
     {
-        private ApplicationConfiguration _config;
-        private Session _session;
+        private readonly ApplicationConfiguration mConfig;
+        private Session mSession;
 
         public MinimalClient()
         {
             InitializeComponent();
 
-            if (EndpointCB.Items.Count > 0)
-                EndpointCB.SelectedIndex = 0;
+            if (cbEndpoint.Items.Count > 0)
+            {
+                cbEndpoint.SelectedIndex = 0;
+            }
 
             //"1 - Create a config"
-            _config = CreateOpcUaAppConfiguration();
+            mConfig = createOpcUaAppConfiguration();
         }
-        
-        private async void ConnectButton_Click(object sender, EventArgs e)
+
+        private ApplicationConfiguration createOpcUaAppConfiguration()
         {
-            string endPointUrl = this.EndpointCB.Text;
-
-            //2 - Create Session
-            _session = await Session.Create(_config, new ConfiguredEndpoint(null, new EndpointDescription(endPointUrl)), true, "", 60000, null, null);
-            
-            //3 - Show the server namespace
-            browseTreeCtrl1.SetView(_session, BrowseViewType.Objects, null);
-
-
-            //BrowsTreeControl을 사용하지 않는 경우 아래 코드를 사용하여 AddressSpace를 순회할 수 있다.
-
-            //ReferenceDescriptionCollection refs;
-            //byte[] continuationPoint;
-
-            //_session.Browse(null, null, ObjectIds.ObjectsFolder, 0u, BrowseDirection.Forward, ReferenceTypeIds.HierarchicalReferences, true, (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method, out continuationPoint, out refs);
-
-            //foreach (var rd in refs)
-            //{
-            //    Console.WriteLine("{0}: {1}, {2}", rd.DisplayName, rd.BrowseName, rd.NodeClass);
-            //    ReferenceDescriptionCollection nextRefs;
-            //    byte[] nextCp;
-            //    _session.Browse(null, null, ExpandedNodeId.ToNodeId(rd.NodeId, _session.NamespaceUris), 0u, BrowseDirection.Forward, ReferenceTypeIds.HierarchicalReferences, true, (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method, out nextCp, out nextRefs);
-            //    foreach (var nextRd in nextRefs)
-            //    {
-            //        Console.WriteLine("+ {0}: {1}, {2}", nextRd.DisplayName, nextRd.BrowseName, nextRd.NodeClass);
-            //    }
-            //}                
-
-        }
-        
-        private ApplicationConfiguration CreateOpcUaAppConfiguration()
-        {
-            var config = new ApplicationConfiguration()
+            ApplicationConfiguration config = new ApplicationConfiguration()
             {
                 ApplicationName = "MinimalClient",
                 ApplicationType = ApplicationType.Client,
@@ -70,33 +37,76 @@ namespace NugetClient
                 },
                 ClientConfiguration = new ClientConfiguration { DefaultSessionTimeout = 60000 }
             };
-            
+
             config.Validate(ApplicationType.Client);
 
             //신뢰할 수 없는 인증서 허용
             if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
             {
-                config.CertificateValidator.CertificateValidation += (s, e) =>
-                {
-                    e.Accept = (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted);
-                };
+                config.CertificateValidator.CertificateValidation += (s, e) => e.Accept = e.Error.StatusCode == StatusCodes.BadCertificateUntrusted;
             }
 
             return config;
         }
 
-        private void MinimalClient_FormClosing(object sender, FormClosingEventArgs e)
+        private async void btnConnect_ClickAsync(object sender, EventArgs e)
         {
-            Disconnect();
+            string endPointUrl = cbEndpoint.Text;
+
+            //2 - Create Session
+            mSession = await Session.Create(mConfig, new ConfiguredEndpoint(null, new EndpointDescription(endPointUrl)), true, "", 60000, null, null);
+
+            //3 - Show the server namespace
+            browseTreeCtrl1.SetView(mSession, BrowseViewType.Objects, null);
+
+            //BrowsTreeControl을 사용하지 않는 경우 아래 코드를 사용하여 AddressSpace를 순회할 수 있다.
+            mSession.Browse(
+                null,
+                null,
+                ObjectIds.ObjectsFolder,
+                0u,
+                BrowseDirection.Forward,
+                ReferenceTypeIds.HierarchicalReferences,
+                true,
+                (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
+                out _,
+                out ReferenceDescriptionCollection refs);
+
+            foreach (ReferenceDescription rd in refs)
+            {
+                Console.WriteLine($"\n{rd.DisplayName}: {rd.BrowseName}, {rd.NodeClass}");
+
+                mSession.Browse(
+                    null,
+                    null,
+                    ExpandedNodeId.ToNodeId(rd.NodeId, mSession.NamespaceUris),
+                    0u,
+                    BrowseDirection.Forward,
+                    ReferenceTypeIds.HierarchicalReferences,
+                    true,
+                    (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
+                    out byte[] nextCp,
+                    out ReferenceDescriptionCollection nextRefs);
+
+                foreach (ReferenceDescription nextRd in nextRefs)
+                {
+                    Console.WriteLine($"+ { nextRd.DisplayName}: {nextRd.BrowseName}, {nextRd.NodeClass}");
+                }
+            }
         }
 
-        public void Disconnect()
+        private void minimalClient_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_session != null)
+            disconnect();
+        }
+
+        private void disconnect()
+        {
+            if (mSession != null)
             {
-                _session.Close();
-                _session = null;
-            }            
+                mSession.Close();
+                mSession = null;
+            }
         }
     }
 }

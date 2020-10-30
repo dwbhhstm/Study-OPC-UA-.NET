@@ -28,65 +28,65 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ConnectButton = new System.Windows.Forms.Button();
-            this.EndpointCB = new System.Windows.Forms.ComboBox();
+            this.btnConnect = new System.Windows.Forms.Button();
+            this.cbEndpoint = new System.Windows.Forms.ComboBox();
             this.browseTreeCtrl1 = new Opc.Ua.Sample.Controls.BrowseTreeCtrl();
             this.SuspendLayout();
             // 
-            // ConnectButton
+            // btnConnect
             // 
-            this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ConnectButton.Location = new System.Drawing.Point(384, 19);
-            this.ConnectButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(91, 26);
-            this.ConnectButton.TabIndex = 2;
-            this.ConnectButton.Text = "Connect";
-            this.ConnectButton.UseVisualStyleBackColor = true;
-            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+            this.btnConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConnect.Location = new System.Drawing.Point(336, 15);
+            this.btnConnect.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(80, 21);
+            this.btnConnect.TabIndex = 2;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_ClickAsync);
             // 
-            // EndpointCB
+            // cbEndpoint
             // 
-            this.EndpointCB.FormattingEnabled = true;
-            this.EndpointCB.Items.AddRange(new object[] {
-            "opc.tcp://localhost:51210/UA/MinimalServer",
-            "opc.tcp://localhost:51210/UA/SampleServer"});
-            this.EndpointCB.Location = new System.Drawing.Point(13, 19);
-            this.EndpointCB.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.EndpointCB.Name = "EndpointCB";
-            this.EndpointCB.Size = new System.Drawing.Size(363, 23);
-            this.EndpointCB.TabIndex = 3;
+            this.cbEndpoint.FormattingEnabled = true;
+            this.cbEndpoint.Items.AddRange(new object[] {
+            "opc.tcp://192.168.33.195:53530/OPCUA/SimulationServer"});
+            this.cbEndpoint.Location = new System.Drawing.Point(11, 15);
+            this.cbEndpoint.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.cbEndpoint.Name = "cbEndpoint";
+            this.cbEndpoint.Size = new System.Drawing.Size(318, 20);
+            this.cbEndpoint.TabIndex = 3;
             // 
             // browseTreeCtrl1
             // 
             this.browseTreeCtrl1.AttributesCtrl = null;
             this.browseTreeCtrl1.EnableDragging = false;
-            this.browseTreeCtrl1.Location = new System.Drawing.Point(13, 62);
-            this.browseTreeCtrl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.browseTreeCtrl1.Location = new System.Drawing.Point(11, 50);
+            this.browseTreeCtrl1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.browseTreeCtrl1.Name = "browseTreeCtrl1";
             this.browseTreeCtrl1.SessionTreeCtrl = null;
-            this.browseTreeCtrl1.Size = new System.Drawing.Size(462, 353);
+            this.browseTreeCtrl1.Size = new System.Drawing.Size(404, 282);
             this.browseTreeCtrl1.TabIndex = 4;
             // 
             // MinimalClient
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(511, 445);
+            this.ClientSize = new System.Drawing.Size(447, 356);
             this.Controls.Add(this.browseTreeCtrl1);
-            this.Controls.Add(this.EndpointCB);
-            this.Controls.Add(this.ConnectButton);
+            this.Controls.Add(this.cbEndpoint);
+            this.Controls.Add(this.btnConnect);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MinimalClient";
             this.Text = "MinimalClient";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MinimalClient_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.minimalClient_FormClosing);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button ConnectButton;
-        private System.Windows.Forms.ComboBox EndpointCB;
+        private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.ComboBox cbEndpoint;
         private Opc.Ua.Sample.Controls.BrowseTreeCtrl browseTreeCtrl1;
     }
 }

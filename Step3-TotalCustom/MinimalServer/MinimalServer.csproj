@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Opc.Ua.ComInterop">
-      <HintPath>..\_Libs\Opc.Ua.ComInterop.dll</HintPath>
-    </Reference>
     <Reference Include="Opc.Ua.Configuration">
       <HintPath>..\_Libs\Opc.Ua.Configuration.dll</HintPath>
     </Reference>

@@ -1,8 +1,7 @@
-﻿using System.Windows.Forms;
-
-using Opc.Ua;
-using Opc.Ua.Server;
+﻿using Opc.Ua;
 using Opc.Ua.Configuration;
+using Opc.Ua.Server;
+using System.Windows.Forms;
 
 namespace MinimalServer
 {

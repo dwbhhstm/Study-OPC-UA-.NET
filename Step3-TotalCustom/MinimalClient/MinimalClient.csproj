@@ -39,9 +39,6 @@
     <Reference Include="Opc.Ua.ClientControls">
       <HintPath>..\_Libs\Opc.Ua.ClientControls.dll</HintPath>
     </Reference>
-    <Reference Include="Opc.Ua.Configuration">
-      <HintPath>..\_Libs\Opc.Ua.Configuration.dll</HintPath>
-    </Reference>
     <Reference Include="Opc.Ua.Core">
       <HintPath>..\_Libs\Opc.Ua.Core.dll</HintPath>
     </Reference>

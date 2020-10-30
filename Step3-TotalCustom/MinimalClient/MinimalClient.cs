@@ -1,10 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-
-using Opc.Ua;
-using Opc.Ua.Configuration;
+﻿using Opc.Ua;
 using Opc.Ua.Client;
 using Opc.Ua.Sample.Controls;
+using System;
+using System.Windows.Forms;
 
 
 namespace MinimalClient

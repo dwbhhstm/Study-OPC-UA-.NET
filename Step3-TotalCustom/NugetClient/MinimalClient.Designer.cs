@@ -40,12 +40,23 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn02 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lbNodeId01 = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lbResult01 = new System.Windows.Forms.ListBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.lbResult01 = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lbNodeId01 = new System.Windows.Forms.ListBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbValue01 = new System.Windows.Forms.TextBox();
+            this.btn04 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lbResult02 = new System.Windows.Forms.ListBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lbNodeId02 = new System.Windows.Forms.ListBox();
+            this.btn03 = new System.Windows.Forms.Button();
+            this.btn05 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnConnect
@@ -90,7 +101,7 @@
             this.btn01.Name = "btn01";
             this.btn01.Size = new System.Drawing.Size(80, 50);
             this.btn01.TabIndex = 5;
-            this.btn01.Text = "btn01";
+            this.btn01.Text = "Read";
             this.btn01.UseVisualStyleBackColor = true;
             this.btn01.Click += new System.EventHandler(this.btn01_Click);
             // 
@@ -158,7 +169,7 @@
             this.btn02.Name = "btn02";
             this.btn02.Size = new System.Drawing.Size(380, 33);
             this.btn02.TabIndex = 10;
-            this.btn02.Text = "btn02";
+            this.btn02.Text = "Read";
             this.btn02.UseVisualStyleBackColor = true;
             this.btn02.Click += new System.EventHandler(this.btn02_Click);
             // 
@@ -174,6 +185,34 @@
             this.groupBox2.Size = new System.Drawing.Size(410, 501);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(178, 67);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(44, 12);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Result:";
+            // 
+            // lbResult01
+            // 
+            this.lbResult01.BackColor = System.Drawing.SystemColors.Control;
+            this.lbResult01.FormattingEnabled = true;
+            this.lbResult01.ItemHeight = 12;
+            this.lbResult01.Location = new System.Drawing.Point(180, 82);
+            this.lbResult01.Name = "lbResult01";
+            this.lbResult01.Size = new System.Drawing.Size(223, 400);
+            this.lbResult01.TabIndex = 12;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 67);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(49, 12);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "NodeId:";
             // 
             // lbNodeId01
             // 
@@ -217,39 +256,156 @@
             this.lbNodeId01.Size = new System.Drawing.Size(139, 400);
             this.lbNodeId01.TabIndex = 11;
             // 
-            // label3
+            // groupBox3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 67);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 12);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "NodeId:";
+            this.groupBox3.Controls.Add(this.btn05);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.tbValue01);
+            this.groupBox3.Controls.Add(this.btn04);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.lbResult02);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.lbNodeId02);
+            this.groupBox3.Controls.Add(this.btn03);
+            this.groupBox3.Location = new System.Drawing.Point(877, 15);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(410, 616);
+            this.groupBox3.TabIndex = 13;
+            this.groupBox3.TabStop = false;
             // 
-            // lbResult01
+            // label7
             // 
-            this.lbResult01.BackColor = System.Drawing.SystemColors.Control;
-            this.lbResult01.FormattingEnabled = true;
-            this.lbResult01.ItemHeight = 12;
-            this.lbResult01.Location = new System.Drawing.Point(180, 82);
-            this.lbResult01.Name = "lbResult01";
-            this.lbResult01.Size = new System.Drawing.Size(223, 400);
-            this.lbResult01.TabIndex = 12;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(22, 553);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 12);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Value:";
             // 
-            // label4
+            // tbValue01
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(178, 67);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(44, 12);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Result:";
+            this.tbValue01.Location = new System.Drawing.Point(65, 549);
+            this.tbValue01.Name = "tbValue01";
+            this.tbValue01.Size = new System.Drawing.Size(325, 21);
+            this.tbValue01.TabIndex = 15;
+            this.tbValue01.Text = "1000";
+            // 
+            // btn04
+            // 
+            this.btn04.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn04.Location = new System.Drawing.Point(8, 575);
+            this.btn04.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.btn04.Name = "btn04";
+            this.btn04.Size = new System.Drawing.Size(270, 33);
+            this.btn04.TabIndex = 13;
+            this.btn04.Text = "Write";
+            this.btn04.UseVisualStyleBackColor = true;
+            this.btn04.Click += new System.EventHandler(this.btn04_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(178, 67);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 12);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Result:";
+            // 
+            // lbResult02
+            // 
+            this.lbResult02.BackColor = System.Drawing.SystemColors.Control;
+            this.lbResult02.FormattingEnabled = true;
+            this.lbResult02.ItemHeight = 12;
+            this.lbResult02.Location = new System.Drawing.Point(180, 82);
+            this.lbResult02.Name = "lbResult02";
+            this.lbResult02.Size = new System.Drawing.Size(223, 448);
+            this.lbResult02.TabIndex = 12;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 67);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(49, 12);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "NodeId:";
+            // 
+            // lbNodeId02
+            // 
+            this.lbNodeId02.BackColor = System.Drawing.SystemColors.Window;
+            this.lbNodeId02.FormattingEnabled = true;
+            this.lbNodeId02.ItemHeight = 12;
+            this.lbNodeId02.Items.AddRange(new object[] {
+            "ns=3;i=1009",
+            "ns=3;i=1010",
+            "ns=3;i=1011",
+            "ns=3;i=1012",
+            "ns=3;i=1013",
+            "ns=3;i=1014",
+            "ns=3;i=1015",
+            "ns=3;i=1016",
+            "ns=3;i=1017",
+            "ns=3;i=1018",
+            "ns=3;i=1019",
+            "ns=3;i=1020",
+            "ns=3;i=1021",
+            "ns=3;i=1022",
+            "ns=3;i=1023",
+            "ns=3;i=1024",
+            "ns=3;i=1025",
+            "ns=3;i=1026",
+            "ns=3;i=1027",
+            "ns=3;i=1028",
+            "ns=3;i=1029",
+            "ns=3;i=1030",
+            "ns=3;i=1031",
+            "ns=3;i=1032",
+            "ns=3;i=1033",
+            "ns=3;i=1034",
+            "ns=3;i=1035",
+            "ns=3;i=1036",
+            "ns=3;i=1037",
+            "ns=3;i=1038",
+            "",
+            "",
+            "",
+            ""});
+            this.lbNodeId02.Location = new System.Drawing.Point(8, 82);
+            this.lbNodeId02.Name = "lbNodeId02";
+            this.lbNodeId02.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbNodeId02.Size = new System.Drawing.Size(139, 448);
+            this.lbNodeId02.TabIndex = 11;
+            // 
+            // btn03
+            // 
+            this.btn03.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn03.Location = new System.Drawing.Point(8, 17);
+            this.btn03.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.btn03.Name = "btn03";
+            this.btn03.Size = new System.Drawing.Size(395, 33);
+            this.btn03.TabIndex = 10;
+            this.btn03.Text = "Read";
+            this.btn03.UseVisualStyleBackColor = true;
+            this.btn03.Click += new System.EventHandler(this.btn03_Click);
+            // 
+            // btn05
+            // 
+            this.btn05.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn05.Location = new System.Drawing.Point(299, 575);
+            this.btn05.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.btn05.Name = "btn05";
+            this.btn05.Size = new System.Drawing.Size(104, 33);
+            this.btn05.TabIndex = 16;
+            this.btn05.Text = "Reset Data";
+            this.btn05.UseVisualStyleBackColor = true;
+            this.btn05.Click += new System.EventHandler(this.btn05_Click);
             // 
             // MinimalClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(877, 658);
+            this.ClientSize = new System.Drawing.Size(1326, 658);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tbErrorMessage);
@@ -264,6 +420,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -287,6 +445,16 @@
         private System.Windows.Forms.ListBox lbResult01;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btn04;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ListBox lbResult02;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ListBox lbNodeId02;
+        private System.Windows.Forms.Button btn03;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbValue01;
+        private System.Windows.Forms.Button btn05;
     }
 }
 

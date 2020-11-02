@@ -1,8 +1,10 @@
 ﻿using Opc.Ua;
 using Opc.Ua.Client;
+using Opc.Ua.Client.Controls;
 using Opc.Ua.Sample.Controls;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace NugetClient
@@ -21,7 +23,7 @@ namespace NugetClient
                 cbEndpoint.SelectedIndex = 0;
             }
 
-            //"1 - Create a config"
+            // "1 - Create a config"
             mConfig = createOpcUaAppConfiguration();
         }
 
@@ -34,14 +36,14 @@ namespace NugetClient
                 SecurityConfiguration = new SecurityConfiguration
                 {
                     ApplicationCertificate = new CertificateIdentifier(),
-                    AutoAcceptUntrustedCertificates = true   //신뢰할 수 없는 인증서 허용
+                    AutoAcceptUntrustedCertificates = true // 신뢰할 수 없는 인증서 허용
                 },
                 ClientConfiguration = new ClientConfiguration { DefaultSessionTimeout = 60000 }
             };
 
             config.Validate(ApplicationType.Client);
 
-            //신뢰할 수 없는 인증서 허용
+            // 신뢰할 수 없는 인증서 허용
             if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
             {
                 config.CertificateValidator.CertificateValidation += (s, e) => e.Accept = e.Error.StatusCode == StatusCodes.BadCertificateUntrusted;
@@ -54,13 +56,13 @@ namespace NugetClient
         {
             string endPointUrl = cbEndpoint.Text;
 
-            //2 - Create Session
+            // 2 - Create Session
             mSession = await Session.Create(mConfig, new ConfiguredEndpoint(null, new EndpointDescription(endPointUrl)), true, "", 60000, null, null);
 
-            //3 - Show the server namespace
+            // 3 - Show the server namespace
             browseTreeCtrl1.SetView(mSession, BrowseViewType.Objects, null);
 
-            //BrowsTreeControl을 사용하지 않는 경우 아래 코드를 사용하여 AddressSpace를 순회할 수 있다.
+            // BrowsTreeControl을 사용하지 않는 경우 아래 코드를 사용하여 AddressSpace를 순회할 수 있다.
             mSession.Browse(
                 null,
                 null,
@@ -118,7 +120,7 @@ namespace NugetClient
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(tbNodeId01.Text))
+            if (string.IsNullOrEmpty(tbNodeId01.Text))
             {
                 return;
             }
@@ -128,7 +130,7 @@ namespace NugetClient
 
             try
             {
-                tbResult01.Text = mSession.ReadValue(tbNodeId01.Text.Trim()).Value.ToString();
+                tbResult01.Text = mSession.ReadValue(tbNodeId01.Text).Value.ToString();
             }
             catch (Exception ex)
             {
@@ -243,6 +245,190 @@ namespace NugetClient
             }
         }
 
+        private void btn03_Click(object sender, EventArgs e)
+        {
+            #region annotation
+            //#region validation
+            //if (mSession == null)
+            //{
+            //    return;
+            //}
+
+            //if (lbNodeId02.Items.Count <= 0 || lbNodeId02.SelectedItems.Count <= 0)
+            //{
+            //    return;
+            //}
+            //#endregion
+
+            //clearTextControls();
+
+            //try
+            //{
+            //    var variableIds = new List<NodeId>();
+            //    var expectedTypes = new List<Type>();
+            //    foreach (object item in lbNodeId02.SelectedItems)
+            //    {
+            //        variableIds.Add(new NodeId(item.ToString()));
+            //        expectedTypes.Add(typeof(object));
+            //    }
+
+            //    mSession.ReadValues(variableIds, expectedTypes, out List<object> values, out List<ServiceResult> errors);
+
+            //    //lbResult02.DataSource = values;
+            //    for (int i = 0; i < lbNodeId02.SelectedItems.Count; i++)
+            //    {
+            //        lbResult02.Items.Add($"{values[i]} ({lbNodeId02.SelectedItems[i]}, {expectedTypes[i].Name})");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    tbErrorMessage.Text = ex.Message;
+            //} 
+            #endregion
+            #region annotation-2
+            //try
+            //{
+            //    var nodesToRead = new ReadValueIdCollection();
+            //    foreach (object item in lbNodeId02.SelectedItems)
+            //    {
+            //        nodesToRead.Add(new ReadValueId
+            //        {
+            //            NodeId = new NodeId(item.ToString()),
+            //            AttributeId = Attributes.Value
+            //        });
+            //    }
+
+            //    // read the attributes.
+            //    mSession.Read(
+            //        null,
+            //        0,
+            //        TimestampsToReturn.Neither,
+            //        nodesToRead,
+            //        out DataValueCollection results,
+            //        out DiagnosticInfoCollection diagnosticInfos);
+
+            //    ClientBase.ValidateResponse(results, nodesToRead);
+            //    ClientBase.ValidateDiagnosticInfos(diagnosticInfos, nodesToRead);
+
+            //    // check for error.
+            //    if (StatusCode.IsBad(results[0].StatusCode))
+            //    {
+            //        ValueTB.Text = results[0].StatusCode.ToString();
+            //        ValueTB.ForeColor = Color.Red;
+            //        ValueTB.Font = new Font(ValueTB.Font, FontStyle.Bold);
+            //        return;
+            //    }
+
+            //    SetValue(results[0].WrappedValue);
+            //}
+            //catch (Exception exception)
+            //{
+            //    ClientUtils.HandleException(Text, exception);
+            //} 
+            #endregion
+
+            #region validation
+            if (mSession == null)
+            {
+                return;
+            }
+
+            if (lbNodeId02.Items.Count <= 0 || lbNodeId02.SelectedItems.Count <= 0)
+            {
+                return;
+            }
+            #endregion
+
+            clearTextControls();
+
+            try
+            {
+                var items = new List<string>();
+                foreach (object item in lbNodeId02.SelectedItems)
+                {
+                    items.Add(item.ToString());
+                }
+
+                read(items);
+            }
+            catch (Exception ex)
+            {
+                ClientUtils.HandleException(Text, ex);
+                //tbErrorMessage.Text = ex.Message;
+            }
+        }
+
+        private void btn04_Click(object sender, EventArgs e)
+        {
+            #region validation
+            if (mSession == null)
+            {
+                return;
+            }
+
+            if (lbNodeId02.Items.Count <= 0 || lbNodeId02.SelectedItems.Count <= 0)
+            {
+                return;
+            }
+            #endregion
+
+            clearTextControls();
+
+            try
+            {
+                var items = new List<string>();
+                foreach (object item in lbNodeId02.SelectedItems)
+                {
+                    items.Add(item.ToString());
+                }
+
+                write(items, int.Parse(tbValue01.Text));
+
+                read(items);
+            }
+            catch (Exception ex)
+            {
+                ClientUtils.HandleException(Text, ex);
+                //tbErrorMessage.Text = ex.Message;
+            }
+        }
+
+        private void btn05_Click(object sender, EventArgs e)
+        {
+            #region validation
+            if (mSession == null)
+            {
+                return;
+            }
+
+            if (lbNodeId02.Items.Count <= 0)
+            {
+                return;
+            }
+            #endregion
+
+            clearTextControls();
+
+            try
+            {
+                var items = new List<string>();
+                foreach (object item in lbNodeId02.Items)
+                {
+                    items.Add(item.ToString());
+                }
+                items = items.Where(x => x != string.Empty).ToList();
+
+                write(items, 1);
+
+                read(items);
+            }
+            catch (Exception ex)
+            {
+                ClientUtils.HandleException(Text, ex);
+                //tbErrorMessage.Text = ex.Message;
+            }
+        }
+
         private void clearTextControls()
         {
             tbResult01.Text = string.Empty;
@@ -250,6 +436,131 @@ namespace NugetClient
 
             //lbResult01.DataSource = null;
             lbResult01.Items.Clear();
+
+            //lbResult02.DataSource = null;
+            lbResult02.Items.Clear();
+        }
+
+        private void read(List<string> items)
+        {
+            var nodesToRead = new ReadValueIdCollection();
+            foreach (string item in items)
+            {
+                nodesToRead.Add(new ReadValueId
+                {
+                    NodeId = new NodeId(item),
+                    AttributeId = Attributes.Value
+                });
+            }
+
+            // read the attributes.
+            ResponseHeader responseHeader = mSession.Read(
+                null,
+                0,
+                TimestampsToReturn.Neither,
+                nodesToRead,
+                out DataValueCollection results,
+                out DiagnosticInfoCollection diagnosticInfos);
+
+            ClientBase.ValidateResponse(results, nodesToRead);
+            ClientBase.ValidateDiagnosticInfos(diagnosticInfos, nodesToRead);
+
+            // check for error.
+            for (int i = 0; i < results.Count; i++)
+            {
+                if (StatusCode.IsBad(results[i].StatusCode))
+                {
+                    throw ServiceResultException.Create(results[i].StatusCode, 0, diagnosticInfos, responseHeader.StringTable);
+                }
+            }
+
+            // load.
+            for (int i = 0; i < results.Count; i++)
+            {
+                (string, BuiltInType) result = getValue(results[i].WrappedValue);
+                lbResult02.Items.Add($"{result.Item1} ({items[i]}, {result.Item2})");
+            }
+        }
+
+        private void write(List<string> items, int value)
+        {
+            var nodesToWrite = new WriteValueCollection();
+            foreach (string item in items)
+            {
+                nodesToWrite.Add(new WriteValue
+                {
+                    NodeId = new NodeId(item),
+                    AttributeId = Attributes.Value,
+                    Value = new DataValue(getValue(value++, item))
+                });
+            }
+
+            // write the attributes.
+            ResponseHeader responseHeader = mSession.Write(
+                null,
+                nodesToWrite,
+                out StatusCodeCollection results,
+                out DiagnosticInfoCollection diagnosticInfos);
+
+            ClientBase.ValidateResponse(results, nodesToWrite);
+            ClientBase.ValidateDiagnosticInfos(diagnosticInfos, nodesToWrite);
+
+            // check for error.
+            for (int i = 0; i < results.Count; i++)
+            {
+                if (StatusCode.IsBad(results[i]))
+                {
+                    throw ServiceResultException.Create(results[i], 0, diagnosticInfos, responseHeader.StringTable);
+                }
+            }
+        }
+
+        #region annotation
+        //private string getValue(Variant value)
+        //{
+        //    // check for null.
+        //    if (value == Variant.Null)
+        //    {
+        //        return string.Empty;
+        //    }
+
+        //    // get the source type.
+        //    TypeInfo sourceType = value.TypeInfo;
+        //    if (sourceType == null)
+        //    {
+        //        sourceType = TypeInfo.Construct(value.Value);
+        //    }
+
+        //    return value.Value.ToString();
+        //} 
+        #endregion
+        private (string, BuiltInType) getValue(Variant value)
+        {
+            // check for null.
+            if (value == Variant.Null)
+            {
+                return (null, BuiltInType.Null);
+            }
+
+            // get the source type.
+            TypeInfo sourceType = value.TypeInfo;
+            if (sourceType == null)
+            {
+                sourceType = TypeInfo.Construct(value.Value);
+            }
+
+            return (value.Value.ToString(), sourceType.BuiltInType);
+        }
+
+        private Variant getValue(object value, string nodeId)
+        {
+            // check for null.
+            if (string.IsNullOrEmpty(value?.ToString()) || string.IsNullOrEmpty(nodeId))
+            {
+                return new Variant(new StatusCode(0x80000000)); // 0x80000000: ('Bad', 'The operation failed.')
+            }
+
+            return new Variant(TypeInfo.Cast(value, mSession.ReadValue(new NodeId(nodeId)).WrappedValue.TypeInfo.BuiltInType));
         }
     }
 }

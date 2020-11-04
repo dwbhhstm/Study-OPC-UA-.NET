@@ -45,6 +45,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lbNodeId01 = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn05 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.tbValue01 = new System.Windows.Forms.TextBox();
             this.btn04 = new System.Windows.Forms.Button();
@@ -53,7 +54,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lbNodeId02 = new System.Windows.Forms.ListBox();
             this.btn03 = new System.Windows.Forms.Button();
-            this.btn05 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -249,7 +249,11 @@
             "ns=3;i=1035",
             "ns=3;i=1036",
             "ns=3;i=1037",
-            "ns=3;i=1038"});
+            "ns=3;i=1038",
+            "",
+            "",
+            "",
+            ""});
             this.lbNodeId01.Location = new System.Drawing.Point(8, 82);
             this.lbNodeId01.Name = "lbNodeId01";
             this.lbNodeId01.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
@@ -272,6 +276,18 @@
             this.groupBox3.Size = new System.Drawing.Size(410, 616);
             this.groupBox3.TabIndex = 13;
             this.groupBox3.TabStop = false;
+            // 
+            // btn05
+            // 
+            this.btn05.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn05.Location = new System.Drawing.Point(299, 575);
+            this.btn05.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.btn05.Name = "btn05";
+            this.btn05.Size = new System.Drawing.Size(104, 33);
+            this.btn05.TabIndex = 16;
+            this.btn05.Text = "Reset Data";
+            this.btn05.UseVisualStyleBackColor = true;
+            this.btn05.Click += new System.EventHandler(this.btn05_Click);
             // 
             // label7
             // 
@@ -387,18 +403,6 @@
             this.btn03.Text = "Read";
             this.btn03.UseVisualStyleBackColor = true;
             this.btn03.Click += new System.EventHandler(this.btn03_Click);
-            // 
-            // btn05
-            // 
-            this.btn05.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn05.Location = new System.Drawing.Point(299, 575);
-            this.btn05.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.btn05.Name = "btn05";
-            this.btn05.Size = new System.Drawing.Size(104, 33);
-            this.btn05.TabIndex = 16;
-            this.btn05.Text = "Reset Data";
-            this.btn05.UseVisualStyleBackColor = true;
-            this.btn05.Click += new System.EventHandler(this.btn05_Click);
             // 
             // MinimalClient
             // 

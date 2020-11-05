@@ -62,6 +62,18 @@ namespace NugetClient
                 mSession = await Session.Create(mConfig, new ConfiguredEndpoint(null, new EndpointDescription(endPointUrl)), true, "", 60000, null, null);
 
                 #region annotation
+                //Security Mode
+                //	None
+                //	Sign
+                //	Sign & Encrypt
+
+                //Security Policy
+                //	Basic128Rsa15
+                //	Basic256
+                //	Basic256Sha256
+                //	Aes128Sha256RsaOaep
+                //	Aes256Sha256RsaPss
+
                 //Uri uri = new Uri(endPointUrl);
 
                 //// 2 - Create EndpointDescription

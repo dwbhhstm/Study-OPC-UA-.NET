@@ -31,7 +31,7 @@ namespace NugetClient
         {
             ApplicationConfiguration config = new ApplicationConfiguration()
             {
-                ApplicationName = "MinimalClient",
+                ApplicationName = "OpcUaClient",
                 ApplicationType = ApplicationType.Client,
                 SecurityConfiguration = new SecurityConfiguration
                 {
@@ -56,45 +56,79 @@ namespace NugetClient
         {
             string endPointUrl = cbEndpoint.Text;
 
-            // 2 - Create Session
-            mSession = await Session.Create(mConfig, new ConfiguredEndpoint(null, new EndpointDescription(endPointUrl)), true, "", 60000, null, null);
-
-            // 3 - Show the server namespace
-            browseTreeCtrl1.SetView(mSession, BrowseViewType.Objects, null);
-
-            // BrowsTreeControl을 사용하지 않는 경우 아래 코드를 사용하여 AddressSpace를 순회할 수 있다.
-            mSession.Browse(
-                null,
-                null,
-                ObjectIds.ObjectsFolder,
-                0u,
-                BrowseDirection.Forward,
-                ReferenceTypeIds.HierarchicalReferences,
-                true,
-                (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
-                out _,
-                out ReferenceDescriptionCollection refs);
-
-            foreach (ReferenceDescription rd in refs)
+            try
             {
-                Console.WriteLine($"\n{rd.DisplayName}: {rd.BrowseName}, {rd.NodeClass}");
+                // 2 - Create Session
+                mSession = await Session.Create(mConfig, new ConfiguredEndpoint(null, new EndpointDescription(endPointUrl)), true, "", 60000, null, null);
 
+                #region annotation
+                //Uri uri = new Uri(endPointUrl);
+
+                //// 2 - Create EndpointDescription
+                //EndpointDescription description = new EndpointDescription
+                //{
+                //    EndpointUrl = uri.ToString(),
+                //    SecurityMode = MessageSecurityMode.Sign,
+                //    SecurityPolicyUri = SecurityPolicies.Basic256Sha256,
+                //    Server = new ApplicationDescription
+                //    {
+                //        ApplicationUri = Utils.UpdateInstanceUri(uri.ToString()),
+                //        ApplicationName = uri.AbsolutePath
+                //    }
+                //};
+
+                //// 3 - Create Endpoint
+                //ConfiguredEndpoint endpoint = new ConfiguredEndpoint(null, description);
+
+                //// 4 - Create Session
+                //mSession = await Session.Create(mConfig, endpoint, true, "", 60000, null, null); 
+                #endregion
+
+                #region Show the server namespace
+                // 3 - Show the server namespace
+                browseTreeCtrl1.SetView(mSession, BrowseViewType.Objects, null);
+                #endregion
+
+                #region BrowsTreeControl을 사용하지 않는 경우 아래 코드를 사용하여 AddressSpace를 순회할 수 있다.
+                // BrowsTreeControl을 사용하지 않는 경우 아래 코드를 사용하여 AddressSpace를 순회할 수 있다.
                 mSession.Browse(
                     null,
                     null,
-                    ExpandedNodeId.ToNodeId(rd.NodeId, mSession.NamespaceUris),
+                    ObjectIds.ObjectsFolder,
                     0u,
                     BrowseDirection.Forward,
                     ReferenceTypeIds.HierarchicalReferences,
                     true,
                     (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
-                    out byte[] nextCp,
-                    out ReferenceDescriptionCollection nextRefs);
+                    out _,
+                    out ReferenceDescriptionCollection refs);
 
-                foreach (ReferenceDescription nextRd in nextRefs)
+                foreach (ReferenceDescription rd in refs)
                 {
-                    Console.WriteLine($"+ { nextRd.DisplayName}: {nextRd.BrowseName}, {nextRd.NodeClass}");
+                    Console.WriteLine($"\n{rd.DisplayName}: {rd.BrowseName}, {rd.NodeClass}");
+
+                    mSession.Browse(
+                        null,
+                        null,
+                        ExpandedNodeId.ToNodeId(rd.NodeId, mSession.NamespaceUris),
+                        0u,
+                        BrowseDirection.Forward,
+                        ReferenceTypeIds.HierarchicalReferences,
+                        true,
+                        (uint)NodeClass.Variable | (uint)NodeClass.Object | (uint)NodeClass.Method,
+                        out byte[] nextCp,
+                        out ReferenceDescriptionCollection nextRefs);
+
+                    foreach (ReferenceDescription nextRd in nextRefs)
+                    {
+                        Console.WriteLine($"+ { nextRd.DisplayName}: {nextRd.BrowseName}, {nextRd.NodeClass}");
+                    }
                 }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                tbErrorMessage.Text = ex.Message;
             }
         }
 
